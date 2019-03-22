@@ -23,7 +23,7 @@ $ docker exec -it ${container_id} /bin/bash
 
 ```
 
-$ cd android-jenkins
+$ cd androidbuilder
 $ sudo docker build -t afirezd/androidbuilder:v1.0.0 .
 
 
