@@ -36,12 +36,13 @@ RUN mkdir -p opt/android/sdk \
     && curl https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip -o android-sdk.zip && unzip android-sdk.zip -d . && rm android-sdk.zip \
     && yes | ./tools/bin/sdkmanager --licenses \
     && ./tools/bin/sdkmanager "tools" \
-    && ./tools/bin/sdkmanager "build-tools;28.0.3" "build-tools;27.0.3" "build-tools;22.0.1" "build-tools;19.1.0" "platforms;android-28" "platforms;android-27" "platforms;android-22" "platforms;android-19" "extras;android;m2repository" "extras;google;m2repository" --no_https \
-    && ./tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" --no_https \
+    && ./tools/bin/sdkmanager "build-tools;28.0.3" "build-tools;27.0.3" "platforms;android-28" "platforms;android-27" "extras;android;m2repository" "extras;google;m2repository" --no_https \
+    && ./tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" "ndk-bundle" --no_https \
     && ./tools/bin/sdkmanager --list
-ENV ANDROID_HOME /opt/android/sdk
+ENV ANDROID_HOME=/opt/android/sdk ANDRODID_NDK_HOME=/opt/android/sdk/ndk-bundle
 ENV PATH ${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-RUN echo ANDROID_HOME="$ANDROID_HOME" >> /etc/profile
+RUN echo "export ANDROID_HOME=${ANDROID_HOME}" >> /etc/profile && \
+    echo "export ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> /etc/profile
 
 # drop back to the regular jenkins user - good practice
 USER jenkins
